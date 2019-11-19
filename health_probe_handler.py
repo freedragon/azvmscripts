@@ -24,13 +24,13 @@ def writebody():
 
     response.status = instance_status
 
-    status = 'healthy'
+    status = 'Healthy'
     if instance_status == 410:
-        status = 'GONE'
+        status = 'Gone'
 
-    body = '<html><head><title>VM Health Check</title></head>'
-    body += '<body><h2> ' + metadata.name + ' is ' + status + ' </h2><ul><h3></body></html>'
-    return body
+    # body = '<html><head><title>VM Health Check</title></head>'
+    # body += '<body><h2> ' + metadata.name + ' is ' + status + ' </h2><ul><h3></body></html>'
+    return status
 
 @route('/')
 def root():
