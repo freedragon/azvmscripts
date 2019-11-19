@@ -14,8 +14,22 @@ hostport = 9000
 instance_status = 200
 
 def writebody():
+    global instance_status
+
+    metadata = InstanceMetadata().populate()
+    logger.info(metadata)
+
+    if instance_status == 200 and metadata.isPendingDelete():
+        instance_status = 410 # HTTP Status Code 410 (Gone)
+
+    response.status = instance_status
+
+    status = 'healthy'
+    if instance_status == 410:
+        status = 'GONE'
+
     body = '<html><head><title>VM Health Check</title></head>'
-    body += '<body><h2> ' + hostname + ' is Healthy </h2><ul><h3></body></html>'
+    body += '<body><h2> ' + metadata.name + ' is ' + status + ' </h2><ul><h3></body></html>'
     return body
 
 @route('/')
@@ -24,14 +38,6 @@ def root():
 
 @route('/health')
 def isHealthy():
-    metadata = instanceMetadata().populate()
-    logger.info(metadata)
-
-    if instance_status == 200 and metadata.isPendingDelete():
-        instance_status = 410 # HTTP Status Code 410 (Gone)
-
-    response.status = instance_status
-
     return writebody()
 
 run(host=hostname, port=hostport)
