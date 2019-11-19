@@ -25,7 +25,7 @@ pip3 install configparser
 # sudo cp azm-telegraf.conf /etc/telegraf/telegraf.conf
 
 #checkout code
-git clone https://github.com/manojsingh/azvmscripts.git
+git clone https://github.com/freedragon/azvmscripts.git
 
 #Start health probe job
 cd azvmscripts
