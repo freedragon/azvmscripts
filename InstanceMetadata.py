@@ -7,7 +7,7 @@ class InstanceMetadata:
 
     def __str__(self):
         return """
-                VMInstance:
+                VM Instance Metadata:
                      Id - {vmId}
                      Name - {name}
                      location - {location}
@@ -49,6 +49,7 @@ class InstanceMetadata:
             self.tags = response_txt['tags']
 
             #populate access_token
+            self.access_token = ''
             accesstoken_url = config.get('imds', 'accesstoken_url')
 
             access_token_response = requests.get(accesstoken_url, headers={"Metadata":"true"})
@@ -64,7 +65,7 @@ class InstanceMetadata:
     """
     Check if the vm needs to be deleted
     """
-    def isPendingDelete():
+    def isPendingDelete(self):
         deleteTag = config.get('imds', 'pending_delete_tag')
 
         if deleteTag in self.tags:
