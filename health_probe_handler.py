@@ -5,7 +5,7 @@
 from bottle import route, run, redirect, response
 from logconfig import logger
 from configuration import config
-from InstanceMetadata import instanceMetadata
+from InstanceMetadata import InstanceMetadata
 import requests, json, os
 
 
