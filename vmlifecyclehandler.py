@@ -2,14 +2,16 @@
 
 from logconfig import logger
 from configuration import config
-from vminstance import VMInstance
+# from vminstance import VMInstance
+from InstanceMetadata import InstanceMetadata
+from bearer_token import BearerAuth
 import requests, json, os
 
-vmInstance = VMInstance().populate()
+vmInstance = InstanceMetadata().populate()
 logger.info(vmInstance)
 
 """
-Check if the vm needs to be deleted
+Check if the vm needs to be deleted (Merged into InstanceMedata.py)
 """
 def isInstanceinPendingDelete():
     deleteTag = config.get('imds', 'pending_delete_tag')
@@ -75,9 +77,11 @@ def deleteVMFromVMSS():
 
     requests.delete(formatted_url, data={}, auth=BearerAuth(vmInstance.access_token))
 
-if(isInstanceinPendingDelete()):
+#if(isInstanceinPendingDelete()):
+if(vmInsance.isPendingDelete()):
     logger.info("Pending Delete is true ...starting custom clean up logic")
-    failLoadBalancerProbes()
+    # Backend removal will be handled from web handler.
+    # failLoadBalancerProbes()
     stopCustomMetricFlow()
     performCustomOperation()
     deleteVMFromVMSS()
